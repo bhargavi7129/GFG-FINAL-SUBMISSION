@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Chatbot</title>
+    <link rel="stylesheet" href="bot.css">
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Medical Chatbot
+        </div>
+        <div class="chat-log" id="chat-log">
+            <!-- Initial greeting message -->
+            <div class="message bot-message">
+                Hello! I'm here to help you with medical information.
+            </div>
+            <!-- Default options -->
+            <div class="message bot-message">
+                Please select an option:
+            </div>
+            <div class="options">
+                <button class="btn option-button" data-option="1">Symptoms</button>
+                <button class="btn option-button" data-option="2">Medications</button>
+                <button class="btn option-button" data-option="3">Health Tips</button>
+                <button class="btn option-button" data-option="4">Contact a Doctor</button>
+            </div>
+        </div>
+        <div class="user-input">
+            <input type="text" id="user-message" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    <script src="bot.js"></script>
+</body>
+</html>

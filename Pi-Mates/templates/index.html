@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head xmlns="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Movie Recommender</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="/static/images/image.jpg">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+</head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/*the container must be positioned relative:*/
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+input {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+input[type=text] {
+  background-color: #f1f1f1;
+  width: 100%;
+}
+
+input[type=submit] {
+  background-color: DodgerBlue;
+  color: #fff;
+  cursor: pointer;
+}
+input[type=login] {
+  background-color: DodgerBlue;
+  color: #fff;
+  cursor: pointer;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9;
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+h1{
+     font-family: 'Poppins', sans-serif;
+     font-size: 40px;
+     font-weight: 700;
+     letter-spacing: 1px;
+   }
+.bg-color{
+background: #ee0979;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #ff6a00, #ee0979); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+,
+ Safari 7+ */
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.login{
+margin: 0px 75px;
+    width: 100px;
+    cursor: pointer;
+    border: none;
+    color: #fff !important;
+    font-size: large;
+    font-weight: 800;
+    border-radius: 20px !important;
+    background-color: blue !important;
+    box-shadow: 0 8px 9px 0 rgba(0,0,0,0.24),0 10px 5px 0 rgba(0,0,0,0.19);
+    padding: 8px 1px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: capitalize;
+    outline: none;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.submit{
+margin: 20px 20px;
+      cursor: pointer;
+      border: none;
+    color: #fff !important;
+    font-size: large;
+    font-weight: 800;
+    border-radius: 20px !important;
+    background-color: blue !important;
+    box-shadow: 0 8px 9px 0 rgba(0,0,0,0.24),0 10px 15px 0 rgba(0,0,0,0.19);
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: capitalize;
+    outline: none;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+.btmhead{
+  font-size: 20px;
+  color: white;
+  margin-top: 10%;
+}
+
+.icicon{
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+.icicon:hover{
+  color: black;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+</style>
+
+<body class="bg-color" style="background: linear-gradient(to right, #ff6a00, #ee0979)">
+
+<div style="margin-top:50px;">
+  <div class="container">
+    <div class="row">
+    <h1 class="heading text-center" style="color:white;letter-spacing: 2px;font-size: 60px;">MOVIE RECOMMENDER</h1>
+       
+    <div class="col-md-18 " style="margin-top:15px;margin-left: 120px">
+              <form autocomplete="off" class="heading text-right" method="post" action="/login">
+                  <button type="login" value="LOGIN" class="login">LOGIN
+              </form>
+            </div>
+          </div>     
+    </div>
+</div> 
+
+
+
+
+<div class="container">
+        <div class="row">
+            <div class="col-md-8" style="margin-top:100px;">
+                <form autocomplete="off" class="form" method="post" action="/recommend">
+                    <h4 class="heading" style="display:inline-block;"><strong>Type in a Movie Name you want to get Recommended for</strong></h4><br>
+                    <div class="autocomplete" style="width:300px">
+                    <input id="myInput" type="text" name="movies" placeholder="Enter a movie name...">
+                    </div>
+                    <input type="submit" value="SUBMIT" class="submit">
+                </form>
+
+              </div>
+            </div>     
+      </div>
+  </div>
+    </div>
+</div>
+
+<script>
+function autocomplete(inp, arr) {
+  /*the autocomplete function takes two arguments,
+  the text field element and an array of possible autocompleted values:*/
+  var currentFocus;
+  /*execute a function when someone writes in the text field:*/
+  inp.addEventListener("input", function(e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false;}
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function(e) {
+              /*insert the value for the autocomplete text field:*/
+              inp.value = this.getElementsByTagName("input")[0].value;
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+  });
+  /*execute a function presses a key on the keyboard:*/
+  inp.addEventListener("keydown", function(e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();           
+        }
+      }
+  });
+  function addActive(x) {
+    /*a function to classify an item as "active":*/
+    if (!x) return false;
+    /*start by removing the "active" class on all items:*/
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    /*add class "autocomplete-active":*/
+    x[currentFocus].classList.add("autocomplete-active");
+  }
+  function removeActive(x) {
+    /*a function to remove the "active" class from all autocomplete items:*/
+    for (var i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+    }
+  }
+  function closeAllLists(elmnt) {
+    /*close all autocomplete lists in the document,
+    except the one passed as an argument:*/
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
+
+var movies = ['Matrix, The (1999)',
+ 'Forrest Gump (1994)',
+ 'Jurassic Park (1993)',
+ 'Back to the Future (1985)',
+ 'Pulp Fiction (1994)',
+ 'Silence of the Lambs, The (1991)',
+ 'Men in Black (a.k.a. MIB) (1997)',
+ 'Star Wars: Episode IV - A New Hope (1977)',
+ 'Raiders of the Lost Ark (Indiana Jones and the Raiders of the Lost Ark) (1981)',
+ 'Star Wars: Episode V - The Empire Strikes Back (1980)',
+ 'Sixth Sense, The (1999)',
+ 'Star Wars: Episode VI - Return of the Jedi (1983)',
+ 'American Beauty (1999)',
+ 'Shawshank Redemption, The (1994)',
+ 'Ghostbusters (a.k.a. Ghost Busters) (1984)',
+ 'Groundhog Day (1993)',
+ 'Terminator 2: Judgment Day (1991)',
+ 'Independence Day (a.k.a. ID4) (1996)',
+ 'E.T. the Extra-Terrestrial (1982)',
+ 'Terminator, The (1984)',
+ 'Toy Story (1995)',
+ 'Speed (1994)',
+ 'Die Hard (1988)',
+ 'Fargo (1996)',
+ 'Braveheart (1995)',
+ 'Indiana Jones and the Last Crusade (1989)',
+ 'Saving Private Ryan (1998)',
+ 'Gladiator (2000)',
+ 'Usual Suspects, The (1995)',
+ 'Batman (1989)',
+ 'Star Wars: Episode I - The Phantom Menace (1999)',
+ 'Seven (a.k.a. Se7en) (1995)',
+ 'Titanic (1997)',
+ 'Truman Show, The (1998)',
+ 'Fight Club (1999)',
+ 'Alien (1979)',
+ 'Fugitive, The (1993)',
+ 'Lord of the Rings: The Fellowship of the Ring, The (2001)',
+ 'Twelve Monkeys (a.k.a. 12 Monkeys) (1995)',
+ 'Mission: Impossible (1996)',
+ 'Indiana Jones and the Temple of Doom (1984)',
+ 'Monty Python and the Holy Grail (1975)',
+ 'Shrek (2001)',
+ "There's Something About Mary (1998)",
+ 'Fifth Element, The (1997)',
+ 'Godfather, The (1972)',
+ 'Good Will Hunting (1997)',
+ 'X-Men (2000)',
+ 'Mask, The (1994)',
+ 'Blade Runner (1982)',
+ "Schindler's List (1993)",
+ 'Who Framed Roger Rabbit? (1988)',
+ 'Edward Scissorhands (1990)',
+ 'Jaws (1975)',
+ 'True Lies (1994)',
+ 'Aliens (1986)',
+ 'Beetlejuice (1988)',
+ 'Apollo 13 (1995)',
+ 'Spider-Man (2002)',
+ 'Rain Man (1988)',
+ 'Being John Malkovich (1999)',
+ 'Austin Powers: International Man of Mystery (1997)',
+ "Ferris Bueller's Day Off (1986)",
+ 'Reservoir Dogs (1992)',
+ 'Austin Powers: The Spy Who Shagged Me (1999)',
+ 'Memento (2000)',
+ 'Back to the Future Part II (1989)',
+ 'Home Alone (1990)',
+ 'Mrs. Doubtfire (1993)',
+ 'Lion King, The (1994)',
+ 'Shining, The (1980)',
+ 'Lord of the Rings: The Two Towers, The (2002)',
+ 'Total Recall (1990)',
+ 'Crouching Tiger, Hidden Dragon (Wo hu cang long) (2000)',
+ 'Big (1988)',
+ 'Pretty Woman (1990)',
+ 'L.A. Confidential (1997)',
+ 'Princess Bride, The (1987)',
+ '2001: A Space Odyssey (1968)',
+ 'Wizard of Oz, The (1939)',
+ "Ocean's Eleven (2001)",
+ 'Clockwork Orange, A (1971)',
+ 'Minority Report (2002)',
+ 'Face/Off (1997)',
+ 'Ace Ventura: Pet Detective (1994)',
+ 'Top Gun (1986)',
+ "One Flew Over the Cuckoo's Nest (1975)",
+ 'Dances with Wolves (1990)',
+ 'Rock, The (1996)',
+ 'Aladdin (1992)',
+ 'Big Lebowski, The (1998)',
+ 'Back to the Future Part III (1990)',
+ 'Jerry Maguire (1996)',
+ 'Breakfast Club, The (1985)',
+ 'As Good as It Gets (1997)',
+ 'Twister (1996)',
+ 'Armageddon (1998)',
+ 'Lethal Weapon (1987)',
+ 'Goodfellas (1990)',
+ 'Pirates of the Caribbean: The Curse of the Black Pearl (2003)',
+ 'American Pie (1999)',
+ 'Full Metal Jacket (1987)',
+ 'Lord of the Rings: The Return of the King, The (2003)',
+ 'Contact (1997)',
+ 'Apocalypse Now (1979)',
+ 'Dead Poets Society (1989)',
+ 'Airplane! (1980)',
+ 'O Brother, Where Art Thou? (2000)',
+ 'Dumb & Dumber (Dumb and Dumber) (1994)',
+ 'Ghost (1990)',
+ 'Willy Wonka & the Chocolate Factory (1971)',
+ 'Cast Away (2000)',
+ 'Mars Attacks! (1996)',
+ 'Mummy, The (1999)',
+ 'Stand by Me (1986)',
+ 'Fish Called Wanda, A (1988)',
+ 'Batman Forever (1995)',
+ 'Hunt for Red October, The (1990)',
+ 'Green Mile, The (1999)',
+ 'Bourne Identity, The (2002)',
+ 'Babe (1995)',
+ 'Die Hard: With a Vengeance (1995)',
+ 'Godfather: Part II, The (1974)',
+ 'Beautiful Mind, A (2001)',
+ 'Monsters, Inc. (2001)',
+ 'Shakespeare in Love (1998)',
+ 'Blues Brothers, The (1980)',
+ 'When Harry Met Sally... (1989)',
+ 'Toy Story 2 (1999)',
+ 'Honey, I Shrunk the Kids (1989)',
+ 'Gattaca (1997)',
+ 'Léon: The Professional (a.k.a. The Professional) (Léon) (1994)',
+ 'Psycho (1960)',
+ 'Finding Nemo (2003)',
+ 'RoboCop (1987)',
+ 'Die Hard 2 (1990)',
+ 'Meet the Parents (2000)',
+ 'Trainspotting (1996)',
+ 'Office Space (1999)',
+ 'Kill Bill: Vol. 1 (2003)',
+ 'Beauty and the Beast (1991)',
+ 'Rocky (1976)',
+ 'Star Wars: Episode II - Attack of the Clones (2002)',
+ "Bug's Life, A (1998)",
+ 'Sleepless in Seattle (1993)',
+ "Harry Potter and the Sorcerer's Stone (a.k.a. Harry Potter and the Philosopher's Stone) (2001)",
+ "Wayne's World (1992)",
+ 'Batman Returns (1992)',
+ 'Liar Liar (1997)',
+ 'Dogma (1999)',
+ "Monty Python's Life of Brian (1979)",
+ 'Taxi Driver (1976)',
+ 'High Fidelity (2000)',
+ 'Starship Troopers (1997)',
+ 'Unbreakable (2000)',
+ 'Blair Witch Project, The (1999)',
+ 'Catch Me If You Can (2002)',
+ 'Jumanji (1995)',
+ 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb (1964)',
+ 'Superman (1978)',
+ 'Con Air (1997)',
+ 'Clerks (1994)',
+ 'Clueless (1995)',
+ 'Untouchables, The (1987)',
+ 'Casablanca (1942)',
+ 'Matrix Reloaded, The (2003)',
+ 'Almost Famous (2000)',
+ 'Scream (1996)',
+ 'American History X (1998)',
+ 'Predator (1987)',
+ 'Waterworld (1995)',
+ 'Interview with the Vampire: The Vampire Chronicles (1994)',
+ 'Lost World: Jurassic Park, The (1997)',
+ 'Abyss, The (1989)',
+ 'Amadeus (1984)',
+ 'Platoon (1986)',
+ 'Mission: Impossible II (2000)',
+ 'Stargate (1994)',
+ 'Close Encounters of the Third Kind (1977)',
+ 'Few Good Men, A (1992)',
+ 'GoldenEye (1995)',
+ 'Sleepy Hollow (1999)',
+ 'Crocodile Dundee (1986)',
+ 'Air Force One (1997)',
+ "Charlie's Angels (2000)",
+ 'South Park: Bigger, Longer and Uncut (1999)',
+ 'Traffic (2000)',
+ 'Erin Brockovich (2000)',
+ 'Four Weddings and a Funeral (1994)',
+ 'Chicken Run (2000)',
+ 'Gremlins (1984)',
+ 'Grease (1978)',
+ 'Eternal Sunshine of the Spotless Mind (2004)',
+ 'Lost in Translation (2003)',
+ 'Game, The (1997)',
+ "Amelie (Fabuleux destin d'Amélie Poulain, Le) (2001)",
+ 'Kill Bill: Vol. 2 (2004)',
+ 'Spider-Man 2 (2004)',
+ 'Pleasantville (1998)',
+ 'Spaceballs (1987)',
+ 'Good Morning, Vietnam (1987)',
+ 'X2: X-Men United (2003)',
+ 'Full Monty, The (1997)',
+ 'Nightmare Before Christmas, The (1993)',
+ 'Exorcist, The (1973)',
+ 'Incredibles, The (2004)',
+ 'Snatch (2000)',
+ 'Raising Arizona (1987)',
+ 'Boogie Nights (1997)',
+ 'Donnie Darko (2001)',
+ 'Heat (1995)',
+ 'Nutty Professor, The (1996)',
+ 'Citizen Kane (1941)',
+ 'Batman Begins (2005)',
+ 'Graduate, The (1967)',
+ 'Three Kings (1999)',
+ 'Lethal Weapon 2 (1989)',
+ 'Unforgiven (1992)',
+ 'Get Shorty (1995)',
+ 'Royal Tenenbaums, The (2001)',
+ 'Enemy of the State (1998)',
+ 'Galaxy Quest (1999)',
+ 'Natural Born Killers (1994)',
+ 'Harry Potter and the Chamber of Secrets (2002)',
+ 'A.I. Artificial Intelligence (2001)',
+ 'Wedding Singer, The (1998)',
+ "Devil's Advocate, The (1997)",
+ 'Grosse Pointe Blank (1997)',
+ 'Run Lola Run (Lola rennt) (1998)',
+ 'Signs (2002)',
+ 'Eyes Wide Shut (1999)',
+ 'Lock, Stock & Two Smoking Barrels (1998)',
+ 'Rear Window (1954)',
+ 'Little Mermaid, The (1989)',
+ 'Thelma & Louise (1991)',
+ 'This Is Spinal Tap (1984)',
+ 'Romancing the Stone (1984)',
+ 'Planet of the Apes (1968)',
+ 'Talented Mr. Ripley, The (1999)',
+ 'My Cousin Vinny (1992)',
+ 'Jackie Brown (1997)',
+ 'Blade (1998)',
+ 'Outbreak (1995)',
+ 'Beverly Hills Cop (1984)',
+ 'Ace Ventura: When Nature Calls (1995)',
+ 'Casino (1995)',
+ 'Chasing Amy (1997)',
+ 'Mary Poppins (1964)',
+ 'From Dusk Till Dawn (1996)',
+ 'Happy Gilmore (1996)',
+ 'Rocky Horror Picture Show, The (1975)',
+ 'Alien³ (a.k.a. Alien 3) (1992)',
+ 'Moulin Rouge (2001)',
+ 'Shrek 2 (2004)',
+ 'Crow, The (1994)',
+ 'Demolition Man (1993)',
+ 'Sin City (2005)',
+ 'Firm, The (1993)',
+ 'Philadelphia (1993)',
+ "It's a Wonderful Life (1946)",
+ 'Mask of Zorro, The (1998)',
+ 'Snow White and the Seven Dwarfs (1937)',
+ 'Young Frankenstein (1974)',
+ "Bridget Jones's Diary (2001)",
+ 'Splash (1984)',
+ 'Men in Black II (a.k.a. MIIB) (a.k.a. MIB 2) (2002)',
+ 'Patriot, The (2000)',
+ 'Bourne Supremacy, The (2004)',
+ 'Matrix Revolutions, The (2003)',
+ 'Big Fish (2003)',
+ 'Star Trek II: The Wrath of Khan (1982)',
+ 'Bowling for Columbine (2002)',
+ 'Net, The (1995)',
+ 'Batman & Robin (1997)',
+ 'Magnolia (1999)',
+ 'Notting Hill (1999)',
+ "You've Got Mail (1998)",
+ 'Field of Dreams (1989)',
+ 'Goldfinger (1964)',
+ 'Sound of Music, The (1965)',
+ 'Cliffhanger (1993)',
+ 'Maverick (1994)',
+ 'Goonies, The (1985)',
+ 'Arachnophobia (1990)',
+ 'Rushmore (1998)',
+ 'Clear and Present Danger (1994)',
+ 'Basic Instinct (1992)',
+ 'Cable Guy, The (1996)',
+ 'Broken Arrow (1996)',
+ 'Vertigo (1958)',
+ 'Chinatown (1974)',
+ 'Life Is Beautiful (La Vita è bella) (1997)',
+ 'Tomorrow Never Dies (1997)',
+ 'Star Wars: Episode III - Revenge of the Sith (2005)',
+ 'League of Their Own, A (1992)',
+ 'Ice Age (2002)',
+ 'Wild Wild West (1999)',
+ 'Karate Kid, The (1984)',
+ 'Good, the Bad and the Ugly, The (Buono, il brutto, il cattivo, Il) (1966)',
+ 'North by Northwest (1959)',
+ 'Antz (1998)',
+ 'Rush Hour (1998)',
+ 'Dark City (1998)',
+ 'Star Trek: First Contact (1996)',
+ 'Fly, The (1986)',
+ 'Ghostbusters II (1989)',
+ '28 Days Later (2002)',
+ 'Hook (1991)',
+ 'Animal House (1978)',
+ 'Brazil (1985)',
+ "What's Eating Gilbert Grape (1993)",
+ 'Planet of the Apes (2001)',
+ 'Birds, The (1963)',
+ 'Dirty Dancing (1987)',
+ 'Birdcage, The (1996)',
+ 'Ed Wood (1994)',
+ "Dracula (Bram Stoker's Dracula) (1992)",
+ 'Deep Impact (1998)',
+ 'Blazing Saddles (1974)',
+ 'Butch Cassidy and the Sundance Kid (1969)',
+ 'Others, The (2001)',
+ 'Requiem for a Dream (2000)',
+ 'Ransom (1996)',
+ 'In the Line of Fire (1993)',
+ 'NeverEnding Story, The (1984)',
+ 'Last of the Mohicans, The (1992)',
+ 'Harry Potter and the Prisoner of Azkaban (2004)',
+ 'Bruce Almighty (2003)',
+ 'Election (1999)',
+ 'Black Hawk Down (2001)',
+ 'Misery (1990)',
+ 'Dave (1993)',
+ 'School of Rock (2003)',
+ 'Leaving Las Vegas (1995)',
+ 'Alien: Resurrection (1997)',
+ 'Fantasia (1940)',
+ 'Sting, The (1973)',
+ 'Wag the Dog (1997)',
+ 'Analyze This (1999)',
+ 'Sneakers (1992)',
+ 'Cocoon (1985)',
+ 'English Patient, The (1996)',
+ 'Highlander (1986)',
+ 'Last Action Hero (1993)',
+ 'To Kill a Mockingbird (1962)',
+ 'Gone with the Wind (1939)',
+ 'True Romance (1993)',
+ 'Addams Family, The (1991)',
+ 'Ring, The (2002)',
+ 'Robin Hood: Men in Tights (1993)',
+ 'Witness (1985)',
+ 'Poltergeist (1982)',
+ 'Annie Hall (1977)',
+ "Bill & Ted's Excellent Adventure (1989)",
+ 'Trading Places (1983)',
+ 'V for Vendetta (2006)',
+ 'Perfect Storm, The (2000)',
+ 'Austin Powers in Goldmember (2002)',
+ 'Christmas Story, A (1983)',
+ 'Scarface (1983)',
+ 'Legally Blonde (2001)',
+ 'American Psycho (2000)',
+ 'My Big Fat Greek Wedding (2002)',
+ 'Mad Max (1979)',
+ 'Shaun of the Dead (2004)',
+ 'Miss Congeniality (2000)',
+ 'X-Files: Fight the Future, The (1998)',
+ 'Ronin (1998)',
+ 'Conspiracy Theory (1997)',
+ 'Italian Job, The (2003)',
+ 'Sling Blade (1996)',
+ 'Tron (1982)',
+ 'Donnie Brasco (1997)',
+ 'Quiz Show (1994)',
+ 'Star Trek: Generations (1994)',
+ 'Gone in 60 Seconds (2000)',
+ 'Adaptation (2002)',
+ 'Lethal Weapon 3 (1992)',
+ 'Willow (1988)',
+ 'Scary Movie (2000)',
+ 'Mulholland Drive (2001)',
+ 'Army of Darkness (1993)',
+ 'Vanilla Sky (2001)',
+ 'Road to Perdition (2002)',
+ 'Training Day (2001)',
+ 'What Women Want (2000)',
+ 'Caddyshack (1980)',
+ 'Thomas Crown Affair, The (1999)',
+ 'Terminator 3: Rise of the Machines (2003)',
+ 'I, Robot (2004)',
+ 'Zoolander (2001)',
+ 'Desperado (1995)',
+ 'Deer Hunter, The (1978)',
+ 'Last Samurai, The (2003)',
+ 'Crimson Tide (1995)',
+ 'Judge Dredd (1995)',
+ 'Godfather: Part III, The (1990)',
+ 'Gangs of New York (2002)',
+ 'Crying Game, The (1992)',
+ 'American President, The (1995)',
+ 'Casino Royale (2006)',
+ 'Panic Room (2002)',
+ 'Mystic River (2003)',
+ 'M*A*S*H (a.k.a. MASH) (1970)',
+ 'Eraser (1996)',
+ 'Hot Shots! Part Deux (1993)',
+ 'Glory (1989)',
+ 'Chocolat (2000)',
+ 'Cape Fear (1991)',
+ 'Departed, The (2006)',
+ 'Little Shop of Horrors (1986)',
+ 'Negotiator, The (1998)',
+ 'Star Trek IV: The Voyage Home (1986)',
+ 'Dark Knight, The (2008)',
+ 'Best in Show (2000)',
+ 'Lady and the Tramp (1955)',
+ 'While You Were Sleeping (1995)',
+ 'Patriot Games (1992)',
+ 'Road Warrior, The (Mad Max 2) (1981)',
+ 'World Is Not Enough, The (1999)',
+ 'Mummy Returns, The (2001)',
+ 'Superman II (1980)',
+ "My Best Friend's Wedding (1997)",
+ 'Carrie (1976)',
+ 'Dead Man Walking (1995)',
+ 'Collateral (2004)',
+ 'Lethal Weapon 4 (1998)',
+ 'Species (1995)',
+ 'Sister Act (1992)',
+ 'Heathers (1989)',
+ 'About a Boy (2002)',
+ 'Naked Gun: From the Files of Police Squad!, The (1988)',
+ 'Addams Family Values (1993)',
+ 'Pi (1998)',
+ 'Fahrenheit 9/11 (2004)',
+ 'Pearl Harbor (2001)',
+ 'Bridge on the River Kwai, The (1957)',
+ 'Robin Hood: Prince of Thieves (1991)',
+ "William Shakespeare's Romeo + Juliet (1996)",
+ 'Home Alone 2: Lost in New York (1992)',
+ 'Me, Myself & Irene (2000)',
+ 'JFK (1991)',
+ '12 Angry Men (1957)',
+ 'Dune (1984)',
+ 'Tootsie (1982)',
+ 'Scent of a Woman (1992)',
+ 'Naked Gun 33 1/3: The Final Insult (1994)',
+ 'Lara Croft: Tomb Raider (2001)',
+ 'Blue Velvet (1986)',
+ 'Raging Bull (1980)',
+ '40-Year-Old Virgin, The (2005)',
+ 'Insider, The (1999)',
+ 'American Pie 2 (2001)',
+ 'Deliverance (1972)',
+ 'Chicago (2002)',
+ 'Hannibal (2001)',
+ 'Lawrence of Arabia (1962)',
+ 'Fisher King, The (1991)',
+ 'Jungle Book, The (1967)',
+ 'Million Dollar Baby (2004)',
+ 'Cell, The (2000)',
+ 'Fast Times at Ridgemont High (1982)',
+ 'Little Miss Sunshine (2006)',
+ '10 Things I Hate About You (1999)',
+ 'Risky Business (1983)',
+ 'Godzilla (1998)',
+ 'Pinocchio (1940)',
+ 'City Slickers (1991)',
+ 'Escape from New York (1981)',
+ 'Insomnia (2002)',
+ 'Wallace & Gromit: The Wrong Trousers (1993)',
+ 'Crash (2004)',
+ 'Hollow Man (2000)',
+ 'Bad Boys (1995)',
+ 'Sideways (2004)',
+ 'Super Size Me (2004)',
+ 'Backdraft (1991)',
+ 'Santa Clause, The (1994)',
+ 'Tombstone (1993)',
+ 'Great Escape, The (1963)',
+ "Monty Python's The Meaning of Life (1983)",
+ 'People vs. Larry Flynt, The (1996)',
+ 'Some Like It Hot (1959)',
+ 'Spirited Away (Sen to Chihiro no kamikakushi) (2001)',
+ 'Fear and Loathing in Las Vegas (1998)',
+ 'Dragonheart (1996)',
+ 'Sixteen Candles (1984)',
+ 'So I Married an Axe Murderer (1993)',
+ 'Labyrinth (1986)',
+ 'Swingers (1996)',
+ 'Boot, Das (Boat, The) (1981)',
+ "Pirates of the Caribbean: Dead Man's Chest (2006)",
+ 'Fatal Attraction (1987)',
+ 'War of the Worlds (2005)',
+ 'Star Trek III: The Search for Spock (1984)',
+ 'Piano, The (1993)',
+ 'Cool Hand Luke (1967)',
+ 'Dumbo (1941)',
+ 'Garden State (2004)',
+ 'Lost in Space (1998)',
+ 'The Butterfly Effect (2004)',
+ 'Star Trek: The Motion Picture (1979)',
+ 'Prestige, The (2006)',
+ 'Master and Commander: The Far Side of the World (2003)',
+ 'Wild Things (1998)',
+ 'Maltese Falcon, The (1941)',
+ 'Truth About Cats & Dogs, The (1996)',
+ 'Time Bandits (1981)',
+ 'Thing, The (1982)',
+ 'Pianist, The (2002)',
+ 'Running Man, The (1987)',
+ 'Driving Miss Daisy (1989)',
+ 'Hudsucker Proxy, The (1994)',
+ 'Big Daddy (1999)',
+ 'Charlie and the Chocolate Factory (2005)',
+ 'Pitch Black (2000)',
+ 'Thin Red Line, The (1998)',
+ 'Planes, Trains & Automobiles (1987)',
+ 'Phenomenon (1996)',
+ 'Bowfinger (1999)',
+ 'I Know What You Did Last Summer (1997)',
+ 'Out of Sight (1998)',
+ 'Iron Man (2008)',
+ 'Falling Down (1993)',
+ 'Gods Must Be Crazy, The (1980)',
+ 'Shanghai Noon (2000)',
+ 'Harry Potter and the Goblet of Fire (2005)',
+ 'Jurassic Park III (2001)',
+ 'Seven Samurai (Shichinin no samurai) (1954)',
+ 'Blow (2001)',
+ 'Fast and the Furious, The (2001)',
+ 'Bambi (1942)',
+ 'Payback (1999)',
+ 'Coneheads (1993)',
+ 'Police Academy (1984)',
+ 'Stripes (1981)',
+ 'Dick Tracy (1990)',
+ "Pan's Labyrinth (Laberinto del fauno, El) (2006)",
+ 'Children of Men (2006)',
+ 'Congo (1995)',
+ 'Conan the Barbarian (1982)',
+ "Mr. Holland's Opus (1995)",
+ 'Dr. No (1962)',
+ 'Go (1999)',
+ 'Man on the Moon (1999)',
+ 'Love Actually (2003)',
+ "Rosemary's Baby (1968)",
+ 'Napoleon Dynamite (2004)',
+ 'Say Anything... (1989)',
+ 'Cruel Intentions (1999)',
+ 'K-PAX (2001)',
+ 'Hellboy (2004)',
+ '101 Dalmatians (One Hundred and One Dalmatians) (1961)',
+ 'French Connection, The (1971)',
+ 'Mallrats (1995)',
+ 'Three Musketeers, The (1993)',
+ 'Mr. & Mrs. Smith (2005)',
+ 'Johnny Mnemonic (1995)',
+ 'American Graffiti (1973)',
+ 'No Country for Old Men (2007)',
+ 'Space Jam (1996)',
+ 'Gandhi (1982)',
+ 'Scream 2 (1997)',
+ 'Femme Nikita, La (Nikita) (1990)',
+ 'Kingpin (1996)',
+ 'Nightmare on Elm Street, A (1984)',
+ 'Mystery Men (1999)',
+ 'Enemy at the Gates (2001)',
+ 'Star Trek VI: The Undiscovered Country (1991)',
+ 'Saint, The (1997)',
+ 'Wedding Crashers (2005)',
+ "Singin' in the Rain (1952)",
+ 'Whole Nine Yards, The (2000)',
+ 'Jay and Silent Bob Strike Back (2001)',
+ '¡Three Amigos! (1986)',
+ '300 (2007)',
+ 'Legends of the Fall (1994)',
+ 'Swordfish (2001)',
+ 'Day After Tomorrow, The (2004)',
+ "Breakfast at Tiffany's (1961)",
+ 'West Side Story (1961)',
+ 'Juno (2007)',
+ 'Troy (2004)',
+ 'Awakenings (1990)',
+ 'Bend It Like Beckham (2002)',
+ 'Entrapment (1999)',
+ 'Waterboy, The (1998)',
+ 'Cinderella (1950)',
+ 'Bodyguard, The (1992)',
+ 'Beverly Hills Cop III (1994)',
+ 'Wonder Boys (2000)',
+ 'WALL·E (2008)',
+ 'Jerk, The (1979)',
+ 'Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan (2006)',
+ 'Ben-Hur (1959)',
+ 'Elizabeth (1998)',
+ 'From Russia with Love (1963)',
+ 'Bourne Ultimatum, The (2007)',
+ 'Frequency (2000)',
+ 'Dazed and Confused (1993)',
+ 'Client, The (1994)',
+ 'Bull Durham (1988)',
+ 'Fried Green Tomatoes (1991)',
+ 'Road Trip (2000)',
+ 'Sense and Sensibility (1995)',
+ 'Weird Science (1985)',
+ 'Jewel of the Nile, The (1985)',
+ 'City of God (Cidade de Deus) (2002)',
+ 'King Kong (2005)',
+ 'Dog Day Afternoon (1975)',
+ 'Ghost World (2001)',
+ 'Aviator, The (2004)',
+ 'Bonnie and Clyde (1967)',
+ 'Iron Giant, The (1999)',
+ 'What About Bob? (1991)',
+ 'Halloween (1978)',
+ "Hitchhiker's Guide to the Galaxy, The (2005)",
+ 'Karate Kid, Part II, The (1986)',
+ "Romy and Michele's High School Reunion (1997)",
+ 'Hero (Ying xiong) (2002)',
+ 'Event Horizon (1997)',
+ 'Billy Elliot (2000)',
+ 'Rounders (1998)',
+ 'Simple Plan, A (1998)',
+ "Knight's Tale, A (2001)",
+ 'X-Men: The Last Stand (2006)',
+ 'Lost Boys, The (1987)',
+ 'First Blood (Rambo: First Blood) (1982)',
+ 'Beavis and Butt-Head Do America (1996)',
+ "White Men Can't Jump (1992)",
+ "Wayne's World 2 (1993)",
+ 'Gosford Park (2001)',
+ "Ocean's Twelve (2004)",
+ 'Pretty in Pink (1986)',
+ 'African Queen, The (1951)',
+ 'Cider House Rules, The (1999)',
+ 'Chronicles of Narnia: The Lion, the Witch and the Wardrobe, The (2005)',
+ 'Hulk (2003)',
+ 'Alice in Wonderland (1951)',
+ 'Die Another Day (2002)',
+ 'Peter Pan (1953)',
+ 'Tin Cup (1996)',
+ 'Dark Crystal, The (1982)',
+ 'Dangerous Liaisons (1988)',
+ 'Daredevil (2003)',
+ 'Dodgeball: A True Underdog Story (2004)',
+ 'Mulan (1998)',
+ 'Phone Booth (2002)',
+ 'American Werewolf in London, An (1981)',
+ 'Elephant Man, The (1980)',
+ 'Princess Mononoke (Mononoke-hime) (1997)',
+ 'Flintstones, The (1994)',
+ 'Pocahontas (1995)',
+ 'Punch-Drunk Love (2002)',
+ 'Night of the Living Dead (1968)',
+ 'Scrooged (1988)',
+ 'L.A. Story (1991)',
+ 'Manchurian Candidate, The (1962)',
+ 'Mortal Kombat (1995)',
+ 'Virgin Suicides, The (1999)',
+ 'Red Dragon (2002)',
+ 'Ratatouille (2007)',
+ 'Dirty Harry (1971)',
+ 'Mad Max Beyond Thunderdome (1985)',
+ 'Rocketeer, The (1991)',
+ 'Player, The (1992)',
+ "Pee-wee's Big Adventure (1985)",
+ 'Sleepers (1996)',
+ 'My Fair Lady (1964)',
+ 'Remember the Titans (2000)',
+ 'Wallace & Gromit: A Close Shave (1995)',
+ 'Fletch (1985)',
+ 'Primal Fear (1996)',
+ 'Much Ado About Nothing (1993)',
+ 'About Schmidt (2002)',
+ 'Billy Madison (1995)',
+ 'Walk the Line (2005)',
+ 'Sphere (1998)',
+ 'Rocky II (1979)',
+ 'Casper (1995)',
+ "Boys Don't Cry (1999)",
+ 'G.I. Jane (1997)',
+ 'Long Kiss Goodnight, The (1996)',
+ 'Anaconda (1997)',
+ 'Evil Dead II (Dead by Dawn) (1987)',
+ 'Star Trek: Insurrection (1998)',
+ 'Man in the Iron Mask, The (1998)',
+ 'Doors, The (1991)',
+ 'Fistful of Dollars, A (Per un pugno di dollari) (1964)',
+ 'Thank You for Smoking (2006)',
+ 'Serenity (2005)',
+ 'Shallow Hal (2001)',
+ 'Muppet Movie, The (1979)',
+ 'Finding Neverland (2004)',
+ 'Inception (2010)',
+ 'Crocodile Dundee II (1988)',
+ 'Easy Rider (1969)',
+ 'Runaway Bride (1999)',
+ 'Hot Fuzz (2007)',
+ 'Tommy Boy (1995)',
+ 'U-571 (2000)',
+ 'Right Stuff, The (1983)',
+ 'Patch Adams (1998)',
+ 'Final Fantasy: The Spirits Within (2001)',
+ 'Last Emperor, The (1987)',
+ 'Rush Hour 2 (2001)',
+ 'Identity (2003)',
+ 'Matchstick Men (2003)',
+ 'Deep Blue Sea (1999)',
+ 'King Kong (1933)',
+ 'Cool Runnings (1993)',
+ 'Sleeping Beauty (1959)',
+ 'Cube (1997)',
+ 'Spy Game (2001)',
+ 'Moonstruck (1987)',
+ 'Terminal, The (2004)',
+ 'League of Extraordinary Gentlemen, The (a.k.a. LXG) (2003)',
+ 'Young Guns (1988)',
+ 'Rob Roy (1995)',
+ 'One Hour Photo (2002)',
+ 'Village, The (2004)',
+ 'Strange Days (1995)',
+ 'Akira (1988)',
+ 'Bone Collector, The (1999)',
+ 'First Knight (1995)',
+ "Christmas Vacation (National Lampoon's Christmas Vacation) (1989)",
+ 'Lawnmower Man, The (1992)',
+ 'Time to Kill, A (1996)',
+ 'Searching for Bobby Fischer (1993)',
+ 'Glengarry Glen Ross (1992)',
+ 'Old School (2003)',
+ 'Do the Right Thing (1989)',
+ 'Predator 2 (1990)',
+ "City Slickers II: The Legend of Curly's Gold (1994)",
+ 'Big Trouble in Little China (1986)',
+ 'Dr. Dolittle (1998)',
+ 'Grumpy Old Men (1993)',
+ 'Wall Street (1987)',
+ 'Teenage Mutant Ninja Turtles (1990)',
+ 'That Thing You Do! (1996)',
+ 'Dirty Dozen, The (1967)',
+ 'Roger & Me (1989)',
+ 'Blade II (2002)',
+ "Miller's Crossing (1990)",
+ 'Life Aquatic with Steve Zissou, The (2004)',
+ 'National Treasure (2004)',
+ 'Striptease (1996)',
+ 'Avatar (2009)',
+ 'Naked Gun 2 1/2: The Smell of Fear, The (1991)',
+ 'Rocky III (1982)',
+ "Dude, Where's My Car? (2000)",
+ 'Finding Forrester (2000)',
+ '13th Warrior, The (1999)',
+ 'Sliding Doors (1998)',
+ 'What Lies Beneath (2000)',
+ 'Inglourious Basterds (2009)',
+ 'Boondock Saints, The (2000)',
+ 'Big Chill, The (1983)',
+ 'Anchorman: The Legend of Ron Burgundy (2004)',
+ 'WarGames (1983)',
+ "Carlito's Way (1993)",
+ 'Da Vinci Code, The (2006)',
+ 'Free Willy (1993)',
+ 'Star Trek V: The Final Frontier (1989)',
+ 'Patton (1970)',
+ '21 Grams (2003)',
+ 'Never Been Kissed (1999)',
+ 'Illusionist, The (2006)',
+ 'Grumpier Old Men (1995)',
+ 'From Hell (2001)',
+ 'Mission to Mars (2000)',
+ "National Lampoon's Vacation (1983)",
+ 'Evil Dead, The (1981)',
+ 'Rocky IV (1985)',
+ 'I Am Legend (2007)',
+ '50 First Dates (2004)',
+ "Monster's Ball (2001)",
+ 'Speed 2: Cruise Control (1997)',
+ 'Hotel Rwanda (2004)',
+ '8 Mile (2002)',
+ 'Copycat (1995)',
+ 'Evolution (2001)',
+ 'Saw (2004)',
+ 'Scream 3 (2000)',
+ 'Pelican Brief, The (1993)',
+ 'District 9 (2009)',
+ 'Team America: World Police (2004)',
+ 'Parenthood (1989)',
+ 'Harold and Maude (1971)',
+ 'Midnight Cowboy (1969)',
+ 'Stranger than Fiction (2006)',
+ 'RoboCop 2 (1990)',
+ 'xXx (2002)',
+ 'Beverly Hills Cop II (1987)',
+ 'Coming to America (1988)',
+ 'Space Cowboys (2000)',
+ 'Meet Joe Black (1998)',
+ '101 Dalmatians (1996)',
+ 'Transformers (2007)',
+ 'Sex, Lies, and Videotape (1989)',
+ 'How the Grinch Stole Christmas (a.k.a. The Grinch) (2000)',
+ 'Superman III (1983)',
+ 'Double Jeopardy (1999)',
+ 'Buffy the Vampire Slayer (1992)',
+ 'History of Violence, A (2005)',
+ 'Star Trek (2009)',
+ 'Excalibur (1981)',
+ 'Final Destination (2000)',
+ 'Equilibrium (2002)',
+ 'Resident Evil (2002)',
+ 'Sabrina (1995)',
+ 'Slumdog Millionaire (2008)',
+ 'Arlington Road (1999)',
+ 'Rumble in the Bronx (Hont faan kui) (1995)',
+ 'Manhattan (1979)',
+ 'To Die For (1995)',
+ 'Elf (2003)',
+ 'Gremlins 2: The New Batch (1990)',
+ 'Midnight Run (1988)',
+ 'Under Siege (1992)',
+ 'Brady Bunch Movie, The (1995)',
+ 'Name of the Rose, The (Name der Rose, Der) (1986)',
+ 'Up (2009)',
+ "Dante's Peak (1997)",
+ 'Moonraker (1979)',
+ 'Reality Bites (1994)',
+ 'Meet the Fockers (2004)',
+ 'Rambo: First Blood Part II (1985)',
+ 'Underworld (2003)',
+ 'Spartacus (1960)',
+ 'Hunchback of Notre Dame, The (1996)',
+ 'Pay It Forward (2000)',
+ 'Grifters, The (1990)',
+ 'Hackers (1995)',
+ 'Simpsons Movie, The (2007)',
+ 'The Count of Monte Cristo (2002)',
+ "Jacob's Ladder (1990)",
+ 'Omen, The (1976)',
+ 'Cop Land (1997)',
+ 'Escape from L.A. (1996)',
+ 'Working Girl (1988)',
+ "Muriel's Wedding (1994)",
+ 'Superbad (2007)',
+ 'Shine (1996)',
+ 'Craft, The (1996)',
+ 'Color Purple, The (1985)',
+ 'Cinema Paradiso (Nuovo cinema Paradiso) (1989)',
+ 'Beach, The (2000)',
+ 'Ice Storm, The (1997)',
+ 'Brokeback Mountain (2005)',
+ 'Hangover, The (2009)',
+ 'Producers, The (1968)',
+ 'Waking Ned Devine (a.k.a. Waking Ned) (1998)',
+ 'Live and Let Die (1973)',
+ 'Chariots of Fire (1981)',
+ 'Inside Man (2006)',
+ "Charlie's Angels: Full Throttle (2003)",
+ 'Faculty, The (1998)',
+ 'Constantine (2005)',
+ 'Network (1976)',
+ 'Girl, Interrupted (1999)',
+ 'Benny & Joon (1993)',
+ 'Junior (1994)',
+ 'Anger Management (2003)',
+ 'Adventures of Priscilla, Queen of the Desert, The (1994)',
+ 'Lord of War (2005)',
+ 'eXistenZ (1999)',
+ 'Spawn (1997)',
+ 'Seabiscuit (2003)',
+ 'Blood Simple (1984)',
+ "Man Who Wasn't There, The (2001)",
+ 'Kindergarten Cop (1990)',
+ 'Flatliners (1990)',
+ 'River Runs Through It, A (1992)',
+ 'Natural, The (1984)',
+ "Look Who's Talking (1989)",
+ 'Titan A.E. (2000)',
+ 'Heavenly Creatures (1994)',
+ 'City of Lost Children, The (Cité des enfants perdus, La) (1995)',
+ 'End of Days (1999)',
+ 'Bound (1996)',
+ "Charlotte's Web (1973)",
+ 'Sleeper (1973)',
+ 'James and the Giant Peach (1996)',
+ 'Mean Girls (2004)',
+ 'Snake Eyes (1998)',
+ 'October Sky (1999)',
+ 'Knocked Up (2007)',
+ 'Munich (2005)',
+ 'Nurse Betty (2000)',
+ 'Broadcast News (1987)',
+ 'Island, The (2005)',
+ 'Kramer vs. Kramer (1979)',
+ 'Rebel Without a Cause (1955)',
+ 'Executive Decision (1996)',
+ 'Bulworth (1998)',
+ 'Days of Thunder (1990)',
+ 'Score, The (2001)',
+ 'Timecop (1994)',
+ 'Dirty Rotten Scoundrels (1988)',
+ 'Pink Floyd: The Wall (1982)',
+ 'Father of the Bride Part II (1995)',
+ 'Mighty Ducks, The (1992)',
+ 'Six Days Seven Nights (1998)',
+ 'Golden Child, The (1986)',
+ 'Third Man, The (1949)',
+ 'Quick and the Dead, The (1995)',
+ 'Bring It On (2000)',
+ 'Adventures in Babysitting (1987)',
+ 'Private Parts (1997)',
+ 'Bad Santa (2003)',
+ 'Blood Diamond (2006)',
+ "Pirates of the Caribbean: At World's End (2007)",
+ 'Sunset Blvd. (a.k.a. Sunset Boulevard) (1950)',
+ '25th Hour (2002)',
+ 'Harry Potter and the Order of the Phoenix (2007)',
+ "Weekend at Bernie's (1989)",
+ 'Van Helsing (2004)',
+ 'Waiting for Guffman (1996)',
+ 'Midnight in the Garden of Good and Evil (1997)',
+ "Emperor's New Groove, The (2000)",
+ '48 Hrs. (1982)',
+ 'Clue (1985)',
+ 'Kiss Kiss Bang Bang (2005)',
+ 'Michael (1996)',
+ 'Desperately Seeking Susan (1985)',
+ 'In the Name of the Father (1993)',
+ 'Mexican, The (2001)',
+ 'Being There (1979)',
+ "Monty Python's And Now for Something Completely Different (1971)",
+ 'Jackal, The (1997)',
+ 'Courage Under Fire (1996)',
+ 'U.S. Marshals (1998)',
+ 'Ghost in the Shell (Kôkaku kidôtai) (1995)',
+ 'City of Angels (1998)',
+ 'Repo Man (1984)',
+ 'Grand Day Out with Wallace and Gromit, A (1989)',
+ 'Man on Fire (2004)',
+ 'Machinist, The (Maquinista, El) (2004)',
+ 'There Will Be Blood (2007)',
+ 'Lilo & Stitch (2002)',
+ 'Fantastic Four (2005)',
+ 'Death Becomes Her (1992)',
+ 'Born on the Fourth of July (1989)',
+ 'Point Break (1991)',
+ "Logan's Run (1976)",
+ 'On the Waterfront (1954)',
+ '8MM (1999)',
+ 'Malcolm X (1992)',
+ 'Starsky & Hutch (2004)',
+ 'Hoosiers (a.k.a. Best Shot) (1986)',
+ 'Lucky Number Slevin (2006)',
+ 'Licence to Kill (1989)',
+ '6th Day, The (2000)',
+ 'Secretary (2002)',
+ 'Honey, I Blew Up the Kid (1992)',
+ 'Starman (1984)',
+ 'For Your Eyes Only (1981)',
+ 'Watchmen (2009)',
+ 'Spider-Man 3 (2007)',
+ 'French Kiss (1995)',
+ 'Killing Fields, The (1984)',
+ 'Commitments, The (1991)',
+ 'Coyote Ugly (2000)',
+ 'Airplane II: The Sequel (1982)',
+ 'Terms of Endearment (1983)',
+ 'In & Out (1997)',
+ "Bill & Ted's Bogus Journey (1991)",
+ 'Indiana Jones and the Kingdom of the Crystal Skull (2008)',
+ 'Bedazzled (2000)',
+ 'Corpse Bride (2005)',
+ 'Twins (1988)',
+ 'Showgirls (1995)',
+ 'Ghost Dog: The Way of the Samurai (1999)',
+ 'Arsenic and Old Lace (1944)',
+ 'Delicatessen (1991)',
+ 'Frighteners, The (1996)',
+ 'Dawn of the Dead (2004)',
+ 'And Your Mother Too (Y tu mamá también) (2001)',
+ 'Lord of the Rings, The (1978)',
+ 'Tremors (1990)',
+ 'Sword in the Stone, The (1963)',
+ 'Zodiac (2007)',
+ 'Howard the Duck (1986)',
+ 'Remains of the Day, The (1993)',
+ 'Mariachi, El (1992)',
+ 'Papillon (1973)',
+ 'Wallace & Gromit in The Curse of the Were-Rabbit (2005)',
+ 'Doctor Zhivago (1965)',
+ 'Spy Who Loved Me, The (1977)',
+ 'Mighty Aphrodite (1995)',
+ 'Strictly Ballroom (1992)',
+ 'Day the Earth Stood Still, The (1951)',
+ 'Better Off Dead... (1985)',
+ 'Diamonds Are Forever (1971)',
+ 'Superman Returns (2006)',
+ 'Gran Torino (2008)',
+ 'Kiss the Girls (1997)',
+ 'Popeye (1980)',
+ 'Robin Hood (1973)',
+ 'Shutter Island (2010)',
+ 'Island of Dr. Moreau, The (1996)',
+ 'Muppet Treasure Island (1996)',
+ 'Cutthroat Island (1995)',
+ 'Spy Kids 2: The Island of Lost Dreams (2002)',
+ 'Love and Death on Long Island (1997)',
+ 'City Island (2009)',
+ 'Treasure Island (1950)',
+ 'Avengers, The (1998)',
+ 'Avengers, The (2012)',
+ 'Captain America: The Winter Soldier (2014)',
+ 'Captain America: The First Avenger (2011)',
+ 'Once Upon a Time in America (1984)',
+ 'Black Widow (1987)',
+ 'Iron Man 3 (2013)',
+ 'Darkman (1990)',
+ 'Strangeland (1998)',
+ 'Stranger, The (1946)',
+ 'Strangers, The (2008)'];
+
+autocomplete(document.getElementById("myInput"), movies);
+</script>
+</body>
+</html>

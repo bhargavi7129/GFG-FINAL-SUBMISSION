@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MENU</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+            font-family: sans-serif;
+            background-color: #1d1f20;
+            background-image: url(https://static.vecteezy.com/system/resources/thumbnails/010/728/389/original/graphic-fluorescent-perspective-neon-room-floor-abstract-wallpaper-light-space-illustration-3d-render-cyber-club-electronic-game-glowing-illumination-laser-cool-illusion-shape-free-video.jpg);
+            background-size: 100vw 100vh;
+            background-repeat: no-repeat;
+            
+          }
+          .btncontainer{
+            backdrop-filter: blur(10px);
+            height: 100vh;
+            width: 100vw;
+            
+          }
+          
+          .modal-open {
+            padding: 10px 0;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+            border: 0;
+            outline: none;
+           cursor: pointer;
+            background-color: transparent;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+          .modal-open:before, .modal-open:after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            height: 2px;
+            transition: width 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+          }
+          .modal-open:before {
+            width: 100%;
+            background-color: #9d9d9d;
+          }
+          .modal-open:after {
+            width: 0;
+            background-color: #603fed ;
+
+          }
+          .modal-open:hover:after {
+            width: calc(100% + 1px);
+          }
+          
+          .modal-box {
+            position: absolute;
+            overflow: hidden;
+            width: 0;
+            height: 2px;
+            color: #fff;
+           /* background-color: #505050; */
+           background-color: #603fed;
+            transition: width 400ms 400ms cubic-bezier(0.165, 0.84, 0.44, 1), left 400ms 400ms cubic-bezier(0.165, 0.84, 0.44, 1), height 400ms 0ms cubic-bezier(0.165, 0.84, 0.44, 1), top 400ms 0ms cubic-bezier(0.165, 0.84, 0.44, 1);
+          }
+          .modal-box.is-open {
+            transition: width 400ms 0ms cubic-bezier(0.165, 0.84, 0.44, 1), left 400ms 0ms cubic-bezier(0.165, 0.84, 0.44, 1), height 400ms 400ms cubic-bezier(0.165, 0.84, 0.44, 1), top 400ms 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+          }
+          .modal-box.is-open li {
+            opacity: 1;
+          }
+          .modal-box.is-open .modal-close {
+            opacity: 1;
+            transition: all 500ms 700ms;
+          }
+          .modal-box ul {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: 0;
+            padding: 30px;
+            list-style-type: none;
+            transform: translate(-50%, -50%);
+          }
+          .modal-box li {
+            position: relative;
+            margin: 20px 0;
+            text-align: center;
+            opacity: 0;
+            transition: all 200ms;
+          }
+          .modal-box a {
+            position: relative;
+            font-weight: 300;
+            text-decoration: none;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #fff;
+          }
+          .modal-box a:before, .modal-box a:after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            height: 2px;
+            transition: width 400ms cubic-bezier(0.165, 0.84, 0.44, 1);
+          }
+          .modal-box a:after {
+            width: 0;
+            background-color: #fff;
+          }
+          .modal-box a:hover:after {
+            width: 100%;
+          }
+          .modal-box.is-open li:nth-child(1) {
+            transition: all 500ms 575ms;
+          }
+          .modal-box.is-open li:nth-child(2) {
+            transition: all 500ms 650ms;
+          }
+          .modal-box.is-open li:nth-child(3) {
+            transition: all 500ms 725ms;
+          }
+          .modal-box.is-open li:nth-child(4) {
+            transition: all 500ms 800ms;
+          }
+          .modal-box.is-open li:nth-child(5) {
+            transition: all 500ms 875ms;
+          }
+          
+          .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 15px;
+            height: 15px;
+            padding: 0;
+            border: 0;
+            outline: none;
+            opacity: 0;
+            background-color: transparent;
+            transform: rotate(-45deg);
+            cursor: pointer;
+          }
+          .modal-close:before, .modal-close:after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 15px;
+            height: 3px;
+            background-color: #fff;
+            transform: translate(-50%, -50%);
+          }
+          .modal-close:after {
+            width: 3px;
+            height: 15px;
+          }
+          
+          .visuallyhidden {
+            position: absolute;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            border: 0;
+          }
+    </style>
+</head>
+<body>
+    <div class="btncontainer">
+    <button class="modal-open">Open Menu bar</button>
+  </div>
+<div class="modal-box">
+    <div class="modal-box-content">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#Features">Features</a></li>
+            <li><a href="index.html#About">About</a></li>
+            <li><a href="index.html#Pricing">Pricing</a></li>
+            <li><a href="index.html#Contact Us">Contact Us</a></li>
+            
+        </ul>
+    </div>
+    <button class="modal-close"><span class="visuallyhidden">Close modal box</span></button>
+</div>
+<script>
+    var $trigger = $('.modal-open');
+var $close = $('.modal-close');
+var $modal = $('.modal-box');
+
+$(window).on('resize', function() {
+    var top = $trigger.offset().top + $trigger.outerHeight();
+    var left = $trigger.offset().left;
+    var width = $trigger.outerWidth();
+    $trigger.attr({
+        'data-top': top,
+        'data-left': left,
+        'data-width': width
+    });
+    $modal.css({
+        top: top,
+        left: left
+    });
+}).trigger('resize');
+
+$trigger.on('click', function() {
+    $modal.css({
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%'
+    }).addClass('is-open');
+});
+
+$close.on('click', function() {
+    var top = $trigger.offset().top + $trigger.outerHeight();
+    var left = $trigger.offset().left;
+    $modal.css({
+        top: top,
+        left: left,
+        width: 0,
+        height: '2px'
+    }).removeClass('is-open');
+});
+</script>
+</body>
+</html>

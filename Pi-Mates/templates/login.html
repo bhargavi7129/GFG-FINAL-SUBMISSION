@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head xmlns="http://www.w3.org/1999/xhtml">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Movie Recommender</title>
+        <link rel="stylesheet" href="static/css/style.css">
+        <link rel="/static/images/image.jpg">
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+              integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    
+    
+<style>
+/* Style the form container */
+.form-container {
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+/* Style the input fields */
+.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Style the login button */
+.form-container button {
+    width: 100px;
+    cursor: pointer;
+    border: none;
+    color: #fff !important;
+    font-size: large;
+    font-weight: 800;
+    border-radius: 20px !important;
+    background-color: blue !important;
+    box-shadow: 0 8px 9px 0 rgba(0,0,0,0.24),0 10px 5px 0 rgba(0,0,0,0.19);
+    margin: 8px 78px;
+    padding: 14px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: capitalize;
+    outline: none;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+
+/* Change the hover effect on the button */
+.form-container button:hover {
+  opacity: 0.8;
+}
+.bg-color{
+background: #ee0979;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #ff6a00, #ee0979);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #ff6a00, #ee0979); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+,
+ Safari 7+ */
+}
+</style>
+</head>
+<body class="bg-color" style="background: linear-gradient(to right, #ff6a00, #ee0979)">
+    <nav class="navbar bg-dark">
+        <a href="/home"class="navbar-brand text bold">< Back To Home</a>
+    </nav>
+
+<div class="form-container">
+  <form id="loginForm">
+    <h2 class="heading text-center" style="color: white">LOGIN</h2>
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+  </form>
+  <form class="heading text-right" method="post" action="/log">
+    <button >Login</button>
+</form>
+</div>
+
+</body>
+</html>

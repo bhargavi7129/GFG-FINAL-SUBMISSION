@@ -1,0 +1,185 @@
+<html>
+
+<head>
+    <title>Careplus</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="./script.js"></script>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Best and Affordable health services">
+    <meta name="keywords" content="clinic, doctor, medicine, consultation">
+    <style>
+        #about {
+            text-align: center;
+        }
+        
+        #showcase {
+            min-height: 400px;
+            background: url('img/bg-about.jpg') no-repeat -230px -350px;
+            opacity: 0.8;
+            text-align: center;
+            width: 100%;
+            color: rgb(15, 15, 15);
+        }
+        
+        #boxes .box img {
+            width: 200px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("button").click(function() {
+                $("p").toggle(1000);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1><span class="highlight">CAREPLUS</span> </h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html"> HOME </a></li>
+                    <li><a href="doctors.html"> DOCTORS </a></li>
+                    <li class="current"><a href="aboutus.html"> ABOUT US </a></li>
+                    <li><a href="contact.html"> CONTACT </a></li>
+                    <li><a href="sim.html">BUY</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="Showcase">
+        <div class="container">
+            <h1>About Us</h1>
+
+
+
+        </div>
+    </section>
+    <hr>
+    <br><br>
+    <section id="about">
+        <div class="container">
+            <button class="button"><span>ABOUT US </span></button>
+            <p>At CAREPLUS, we're on a mission to revolutionize healthcare delivery. Our commitment is to make healthcare more accessible and efficient, empowering both patients and providers. Here's why we stand out:
+
+                - *Cutting-Edge Technology:* We leverage technology to create a secure and user-friendly platform, enabling remote consultations through telehealth solutions.
+                
+                - *Empowering Choices:* Informed choices lead to better health. We provide patients with essential information, including cost estimates and treatment alternatives.
+                
+                - *Diversity and Inclusion:* We embrace diversity, promoting inclusivity in our workforce and the care we deliver.
+                
+                *Our Vision*
+                
+                We envision a world where healthcare is a partnership between patients and providers, accessible to all. We invite you to join us on this transformative journey.
+                
+                CAREPLUS+ - Redefining Healthcare, One Click at a Time.
+            </p>
+        </div>
+    </section>
+    <br>
+    <br>
+
+    <!-- Slideshow container -->
+    <div class="slideshow-container">
+
+        <!-- Full-width slides/quotes -->
+        <div class="mySlides">
+            <q>The best experience on could get.</q>
+            <p class="author">- NALLA RAHUL</p>
+        </div>
+
+        <div class="mySlides">
+            <q>Best class services and staff.</q>
+            <p class="author">- N.DEEPAK</p>
+        </div>
+
+        <div class="mySlides">
+            <q>New advanced technology to help with all problems possible.</q>
+            <p class="author">- B.HEMANTHA KUMAR</p>
+        </div>
+
+        <!-- Next/prev buttons -->
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <!-- Dots/bullets/indicators -->
+    <div class="dot-container">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+    </div>
+
+
+
+    <!-- <footer>
+        <div class="container">
+                <h3>ANM Clinic</h3>
+                <p>
+                    Monday-Saturday 8am to 10pm
+                </p>
+                <div>
+                    <p>21st Street Goregaon, Mumbai</p>
+                </div>
+
+                <div>
+                    <p>+91 981966595 </p>
+                </div>
+                <p>ANM Clinics, Copyright &copy; 2018</p>
+ 
+                
+        </div>
+    </footer> -->
+
+
+
+    <!--  CONTACT US  -->
+    <footer>
+        <div class="footer">
+
+
+
+
+            <div class="contact_cont" id="contact_cont">
+                <div id="contact">
+                    <div class="ftxt" id="ftxt">
+                        <h1 class="h1alt" id="contactin">CAREPLUS</h1>
+                        <p>
+                            Monday-Saturday 8am to 10pm
+                        </p>
+
+                        <p>AMARAVATI</p>
+
+
+
+                        <p>+91 2093842090</p>
+                        <P>Fax No: +91 9059736737</P>
+
+                        <p>CAREPLUS</p>
+                    </div>
+                    <h1 class="h1alt" id="contact">Stay in the Loop </h1>
+                    <p>Send us an email, or follow us on social media</p>
+
+                    <div class="social-icons-alt" id="social-icons-alt">
+                        <a href="https://x.com/bysani_hemantha?s=08"><img class="iconsalt" src="./img/social-icons/twitter.png"></a>
+                        
+                        <a href="https://instagram.com/mr.scorpion123?igshid=YTQwZjQ0NmI0OA=="><img class="iconsalt" src="./img/social-icons/instagram.png"></a>
+                        
+
+
+                    </div </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </footer>
+</body>
+
+</html>

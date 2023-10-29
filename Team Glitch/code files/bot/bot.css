@@ -1,0 +1,121 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 400px; /* Increase the width */
+    padding: 20px; /* Increase the padding */
+}
+
+.chat-header {
+    background-color: #2196F3;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px; /* Increase the margin */
+}
+
+.chat-log {
+    padding: 10px;
+    min-height: 300px; /* Increase the minimum height */
+    max-height: 400px; /* Increase the maximum height */
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 10px;
+}
+
+.bot-message {
+    background-color: #d3e3f3;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.user-input {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px; /* Increase the padding */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    background-color: #2196F3;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 20px; /* Increase the padding */
+    cursor: pointer;
+    margin-left: 10px; /* Increase the margin */
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.option-button {
+    margin: 10px; /* Increase the margin */
+}
+/* Your existing CSS styles */
+
+/* Additional styles for doctor's response */
+.doctor-response {
+    background-color: #d3e3f3;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.phone-number {
+    font-weight: bold;
+}
+
+.meeting-slots {
+    list-style-type: none;
+    padding: 0;
+}
+/* Your existing CSS styles */
+
+/* Additional styles for user response */
+.user-response {
+    background-color: #d3e3f3;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    text-align: right;
+}
+
+/* Additional styles for doctor's response */
+.doctor-response {
+    background-color: #d3e3f3;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.phone-number {
+    font-weight: bold;
+}
+
+.meeting-slots {
+    list-style-type: none;
+    padding: 0;
+}

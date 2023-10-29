@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "308270973256",
+    "project_id": "hospitalx-ec8b0",
+    "storage_bucket": "hospitalx-ec8b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308270973256:android:87bddb8d5cc9a754e8b37d",
+        "android_client_info": {
+          "package_name": "dev.geekathon.hospitalx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSVLXqIeMQgwuTYXjZe0yNGBJWu59IC50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
