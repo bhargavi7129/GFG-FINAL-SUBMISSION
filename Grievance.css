@@ -1,0 +1,98 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #2e86de; /* Dark blue */
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+header a {
+    text-decoration: none;
+    color: #fff;
+    margin: 10px;
+}
+
+main {
+    margin: 20px;
+}
+
+/* Map Styles */
+#map {
+    height: 400px;
+    border: 2px solid #4a90e2; /* Light blue */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Grievance Form Styles */
+#grievance-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+}
+
+#grievance-submission-form label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
+
+#grievance-submission-form select,
+#grievance-submission-form textarea,
+#grievance-submission-form input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5; /* Light gray */
+    color: #333;
+}
+
+.problem-questions {
+    display: none;
+}
+
+/* Button Styles */
+button {
+    background-color: #ff6b6b; /* Coral red */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e64a19;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Stylish Text and Hover Effects */
+h2, label {
+    color: #333;
+}
+
+#map:hover {
+    transform: scale(1.02);
+}
+
+/* Additional Stylish Design Elements and Animations can be added as needed */
