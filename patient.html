@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Health Practice Management</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Health Practice Management</h1>
+        <p>Efficient Management for Doctors and Patients</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Logout</a></li>
+        </ul>
+    </nav>
+    <section class="xyz">
+        <h2>Ask for Appointment</h2><br>
+        
+    <form action="//submit" method="//post">
+        <label for="name">Your Full Name: </label>
+        <input type="text" name="name" id="name" required placeholder="Enter your full name"><br><br>
+        <label for="pet-select">Choose Doctor: </label>
+    <select  name="doctors" id="doc-select">
+        <option value="">--Please choose an option--</option>
+        <option value="Doctor 1">Doctor 1</option>
+        <option value="Doctor 2">Doctor 2</option>
+        <option value="Doctor 3">Doctor 3</option>
+        <option value="Doctor 4">Doctor 4</option>
+        <option value="Doctor 5">Doctor 5</option>
+        <option value="Doctor 6">Doctor 6</option>
+    </select><br><br>
+    <label for="Appointment_time">Appointment (date and time):</label>
+<input type="datetime-local" id="Appointment_time" name="Appointment_time"><br><br>
+<button class="button" type="submit">Submit</button> <button class="button" type="reset">Reset</button>
+    </form>
+
+    </section>
+
+    <section class="xyz">
+        <h2>View Documents</h2><br>
+        <p>Your Documents are as follows:</p>
+        <!--Document view karna hai from data base-->
+
+    </section>
+    <section class="xyz">
+        <h2>Your Bill</h2>
+        
+         <!--Connect with your database
+
+Write a select query fetch data from the database table
+
+Now write a print statement with your database column inside your textarea tag.-->
+        <div id="billAmount"></div>
+    </section>
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Our Hospital. All rights reserved.</p>
+        </div>
+    </footer>
+    </body>
+    </html>
+
+

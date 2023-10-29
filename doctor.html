@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Health Practice Management</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Health Practice Management</h1>
+        <p>Efficient Management for Doctors and Patients</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Logout</a></li>
+        </ul>
+    </nav>
+    <section class="xyz">
+        <h2>Appointments</h2>
+        <table>
+            <tr>
+                <th>Patient Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <!--Display the name date time from the patient's database to particular doctor.-->
+                <!--this is an example-->
+                <td>John Doe</td>
+                <td>2023-10-12</td>
+                <td>10:00 AM</td>
+                <td>
+                    <!--always include these button on every row-->
+                    <button class="button" onclick="acceptAppointment()">Accept</button>
+                    <button class="button" onclick="rejectAppointment()">Reject</button>
+                </td>
+            </tr>
+            
+        </table>
+    </section>
+    <section class="xyz">
+        <form action="//for patient Treatment" method="post" enctype="multipart/form-data">
+        <h2>Treatment Planning</h2><br>
+        <label for="patient">Select Patient</label>
+        <select  name="patient" id="patient">
+            <!--Display all patient name from the doctors database-->
+            <option value=""></option>
+            <option value=""></option>
+            <option value=""></option>
+        </select><br><br>
+
+        <label for="disease">Type of Disease</label>
+        <input type="text" name="disease" id="disease"><br><br>
+        <label for="cure">Cure</label>
+        <textarea name="cure" id="cure"></textarea><br><br>
+        Upload Files: <br>
+        <input  type="file" name="file">
+        <button class="button" type="submit">Upload</button><br><br>
+        <label for="cost">Estimated Cost</label>
+        <input type="number" name="cost" id="cost"><br><br>
+        <button class="button" type="submit">Submit</button> <button class="button" type="reset">Reset</button>
+</form><br><br>
+        <h2>Bill Generation</h2><br>
+        <button class="button" onclick="generateBill()">Generate Bill</button>
+        <!--this will generate a text that will have the hospitl name, doctor name and estimted cost and this will be uploaded to database which will be viewed to patient--> 
+    </section>
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Our Hospital. All rights reserved.</p>
+        </div>
+    </footer>
+    </body>
+    </html>
+    
+
+
