@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Grievance.css">
+    <title>Grievance Redressal System</title>
+</head>
+<body>
+    <header>
+        <!-- Header content and navigation -->
+    </header>
+    <main>
+        <div id="map"></div>
+        <div id="grievance-form">
+            <!-- Grievance submission form -->
+        </div>
+        <div id="grievance-form">
+            <h2>Submit a Grievance</h2>
+            <form id="grievance-submission-form">
+                <label for="grievance-type">Select the type of grievance:</label>
+                <select id="grievance-type" name="grievance-type">
+                    <option value="Water">Water</option>
+                    <option value="Electricity">Electricity</option>
+                    <option value="Sewer">Sewer</option>
+                </select>
+        
+                <label for="description">Description of the grievance:</label>
+                <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+        
+                <!-- Water Problem Specific Questions -->
+                <div id="water-problem-questions" class="problem-questions">
+                    <label for="water-cause">What is causing the water problem?</label>
+                    <input type="text" id="water-cause" name="water-cause">
+                </div>
+        
+                <!-- Electricity Problem Specific Questions -->
+                <div id="electricity-problem-questions" class="problem-questions">
+                    <label for="electricity-duration">How long has the electricity problem been occurring?</label>
+                    <input type="text" id="electricity-duration" name="electricity-duration">
+                </div>
+        
+                <!-- Sewer Problem Specific Questions -->
+                <div id="sewer-problem-questions" class="problem-questions">
+                    <label for="sewer-location">Location of the sewer problem:</label>
+                    <input type="text" id="sewer-location" name="sewer-location">
+                </div>
+        
+                <label for="location">Location of the grievance:</label>
+                <input type="text" id="location" name="location" required>
+        
+                <!-- Additional fields like images, contact information, etc. can be added as needed -->
+        
+                <button type="submit">Submit Grievance</button>
+            </form>
+        </div>
+        
+    </main>
+    <footer>
+        <!-- Footer content -->
+    </footer>
+    <script src="Griev.js"></script>
+</body>
+</html>

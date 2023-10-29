@@ -1,0 +1,57 @@
+// server.js
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
+app.post('/submit-grievance', (req, res) => {
+    const data = req.body;
+    // Handle the submitted data her
+    console.log('Received data:', data);
+    res.send('Data received successfully!');
+});
+
+
+app.get('/city/:cityName', (req, res) => {
+    const cityName = req.params.cityName;
+    City.findOne({ city: cityName }, (err, city) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+        } else {
+            if (city) {
+                res.send({ lat: city.lat, lng: city.lng });
+            } else {
+                res.status(404).send('City not found');
+            }
+        }
+    });
+});
+
+
+
+
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});
+
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.0.6",
+    "express": "^4.18.2",
+    "node-fetch": "^3.2.6"
+  }
+}
+
+run = "node index.js"
