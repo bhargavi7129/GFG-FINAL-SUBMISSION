@@ -1,13 +1,87 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Health Practice Management</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Health Practice Management</h1>
+        <p>Efficient Management for Doctors and Patients</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="register.html">Register</a></li>
+        </ul>
+    </nav>
+
+    <section class="intro">
+        <h2>Streamline Your Health Practice</h2>
+        <p>Connect with Patients Effortlessly, Simplify Appointment Scheduling and Treatment Planning.</p>
+    </section>
+
+    <section class="features">
+        <h2>What is Health Practice Management?</h2>
+        <p>
+            Health Practice Management is your all-in-one solution for seamless healthcare management. Our platform empowers doctors and patients by simplifying every aspect of medical practice. 
+
+For doctors, we offer intuitive appointment scheduling, allowing you to efficiently manage your patient appointments, while our secure file upload feature enables you to effortlessly share X-rays and medical files. You can view, plan, and discuss treatments with patients, providing alternatives, cost estimates, and generating bills—all in one place.
+
+Patients benefit from easy appointment scheduling, and they can access their medical records, including X-rays and treatment plans. Our platform ensures transparency and allows you to make informed healthcare decisions. 
+
+In today's fast-paced world, we understand the importance of efficient healthcare management. With Health Practice Management, we bring doctors and patients closer, fostering collaboration and delivering quality healthcare services. 
+
+Join us to experience a new era of healthcare management, where appointments are a breeze, information is at your fingertips, and the path to well-being is just a click away. Welcome to a healthier, more convenient future with Health Practice Management.
+        </p>
+    </section>
+
+    <section class="features">
+        <h2>How It Works</h2>
+        <div class="step">
+            <h3>Schedule</h3>
+            <img src="calender.png" width="50" height="50" alt="Schedule Icon">
+            <p>Doctors and patients can easily schedule appointments online.</p>
+        </div>
+        <div class="step">
+            
+            <h3>Upload</h3>
+            <img src="xray.png" width="50" height="50" alt="Upload Icon">
+            <p>Doctors can securely upload X-rays and files for patient review.</p>
+        </div>
+        <div class="step">
+            
+            <h3>View</h3>
+            <img src="view.png" width="50" height="50" alt="View Icon">
+            <p>Patients can view their medical records and treatment options.</p>
+        </div>
+    </section>
+
+    <section class="features">
+   <div style="text-align: center;"> <h2 >Testimonial</h2>
+<img src="doctor.jpg" width="150" height="150" alt="doctor image" style="border-radius: 8px;border: 1px solid gray">
+            <p class="leading-relaxed text-lg">"I can't express how much Health Practice Management has improved my patient experience. The ease of scheduling appointments, accessing my medical records, and discussing treatment options is a game-changer. The platform's efficiency and transparency have truly transformed my healthcare journey."</p>
+            <span class="inline-block h-1 w-10 rounded bg-indigo-500 mt-8 mb-6"></span>
+            
+            <b>WHO certified</b>
+        <p>Senior Doctor</p>
+          </div>
+        
+      </section>
+
+    <section class="features">
+        <h2>Get Started Today</h2><br>
+
+        <p>Register as a Doctor or Patient</p>
+        <button class="button" onclick="document.location='register.html'">Get Started</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Health Practice Management</p>
+    </footer>
+</body>
 </html>
