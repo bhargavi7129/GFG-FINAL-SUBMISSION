@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Practice Management - Login</title>
+    <link rel="stylesheet" href="styles.css">   
+<style>
+    
+</style>
+
+</head>
+    <body>
+        <header>
+            <h1>Health Practice Management</h1>
+        </header>
+    
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+        <div style="text-align: center;">
+        <section class="features">
+        <form id="loginForm">
+        <label class="abc" for="username1">Username:</label>
+        <input class="abc" type="text" id="username1" name="username1" required placeholder="Enter your username"></br>
+        <label class="abc" for="password1">Password:</label>
+        <input class="abc" type="password1" id="password1" name="password1" required placeholder="Enter Password"><br><br>
+        <button type="submit" value="Submit" class="button"  onclick="//FUNCTION TO REDIRECT TO DOCTOR.HTML" >Login</button></br>
+    </form>
+    <br><br>
+<span >
+New member? <a href="register.html" style="text-decoration: none;">Register Here</a>
+</span></section></div>
+        <footer>
+            <p>&copy; 2023 Health Practice Management</p>
+        </footer>
+        <script>
+            document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = document.getElementById('username1').value;
+      const password = document.getElementById('password1').value;
+
+      fetch('/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+      .then(response => {
+        if (response.ok) {
+          // Successful login, handle as needed (e.g., redirect)
+          console.log('Login successful');
+        } else {
+          // Handle login failure
+          console.error('Login failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    });
+        </script>
+    </body>
+    </html>

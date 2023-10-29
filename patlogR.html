@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Practice Management - Login</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+    <body>
+        <header>
+            <h1>Health Practice Management</h1>
+        </header>
+    
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+        <div style="text-align: center;">
+        <section class="features" >
+        <form id="registerForm">
+            <label class="abc" for="Name1">Name:</label>
+            <input class="abc" type="text" id="Name1" name="Name1" required placeholder="Enter your name"></br>
+            <label class="abc" for="address1">Address :</label><br>
+            <textarea class="abc" type="text" id="address1" name="address1" required placeholder="Enter your addres"></textarea></br><br>
+            <label class="abc" for="phone1">Phone Number:</label>
+            <input class="abc" type="number" id="phone1" name="phone1" required placeholder="Enter Number with +91"></br>
+            <label class="abc" for="username4">Username:</label>
+            <input class="abc" type="text" id="username4" name="username4" required placeholder="Enter your username"></br>
+            <label class="abc" for="password5">Password:</label>
+            <input class="abc" type="password5" id="password5" name="password5" required placeholder="Enter Password"></br>
+            <label class="abc" for="password6">Confirm Password:</label>
+            <input class="abc" type="password6" id="password6" name="password6" required placeholder="Confirm password"></br>
+            <button type="submit" value="Submit" class="button" onclick="//FUNCTION TO REDIRECT TO Patient.HTML">Register</button></br>
+        </form><br><br>
+        <span >
+        Already Registered? <a href="login.html">Login</a>
+        </span>
+        </section></div>
+        <footer>
+            <p>&copy; 2023 Health Practice Management</p>
+        </footer>
+        <script>
+            document.getElementById('registerForm').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const fullName = document.getElementById('Name1').value;
+          const username = document.getElementById('username4').value;
+          const address = document.getElementById('address1').value;
+          const phoneNo = document.getElementById('phone1').value;
+          const password = document.getElementById('password5').value;
+    
+          fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ fullName, username, address, phoneNo, password })
+          })
+          .then(response => {
+            if (response.ok) {
+              // Successful registration, handle as needed
+              console.log('Registration successful');
+              alert('Registration successful')
+            } else {
+              // Handle registration failure
+              console.error('Registration failed');
+              alert('Registration failed!')
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
+        </script>
+    </body>
+    </html>
